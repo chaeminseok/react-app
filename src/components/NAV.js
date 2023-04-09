@@ -1,8 +1,19 @@
 import React,  { Component } from 'react';
 
 class NAV extends Component{
+    shouldComponentUpdate(newProps, newState){
+      console.log('===>Toc render shouldComponentUpdate',
+    newProps.data,
+    this.props.data);
+    if(this.props.data===newProps.data){
+      
+        return false;
+     }
+    return true;
+    }
     render(){
-        var lists=[];
+      console.log('=====> toc render')
+      var lists=[];
       var data=  this.props.data;
       var i=0;
       while(i<data.length){
@@ -10,9 +21,11 @@ class NAV extends Component{
         <li key={data[i].id}>
           <a 
           href={"/contents/"+data[i].id}
+          data-id={data[i].id}
           onClick={function(e){
+        
             e.preventDefault();
-            this.props.onChangePage();
+            this.props.onChangePage(e.target.dataset.id);
           }.bind(this)}
           >{data[i].title}</a>
           </li>)
@@ -22,6 +35,7 @@ class NAV extends Component{
       return(
         <nav>
         <ul>
+        
           {lists}
         </ul>
       </nav>
